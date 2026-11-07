@@ -1,0 +1,288 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --chrome-bg: #f3f5f7;
+  --chrome-border: #d5dae0;
+  --button-bg: #ffffff;
+  --button-hover: #e8eef3;
+  --accent: #2f6f8f;
+  --accent-fg: #ffffff;
+  --muted: #5d6670;
+  --warn-bg: #d92b2b;
+  --mark-eol: #2f86c9;
+  --mark-eof: #8a9199;
+  --mark-space: #b4bac1;
+  --mark-zen: #9aa3ad;
+  --mark-inline-eol: #d92b2b;
+  --font-mono: "BIZ UDゴシック", "BIZ UDGothic", "MS Gothic", "Consolas", monospace;
+  /* 置換リスト用: 日本語フォントだと \ が ¥ に見えるので、英数字は Consolas で表示する */
+  --font-code: "Consolas", "Cascadia Mono", "BIZ UDゴシック", "BIZ UDGothic", monospace;
+  --font-ui: "BIZ UDPゴシック", "Yu Gothic UI", "Meiryo UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e2227;
+    --fg: #d7dce2;
+    --chrome-bg: #262b31;
+    --chrome-border: #3a4149;
+    --button-bg: #2f353c;
+    --button-hover: #3a424b;
+    --accent: #4a9cc4;
+    --muted: #9aa4ae;
+    --mark-eol: #5aa9e6;
+    --mark-eof: #7d858e;
+    --mark-space: #59616a;
+    --mark-zen: #737c86;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.toolbar,
+.statusbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--chrome-bg);
+  border-color: var(--chrome-border);
+  border-style: solid;
+  border-width: 0;
+}
+
+.toolbar {
+  padding: 6px 10px;
+  border-bottom-width: 1px;
+}
+
+.statusbar {
+  padding: 3px 10px;
+  border-top-width: 1px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.statusbar select {
+  font: inherit;
+  margin-left: 4px;
+}
+
+.sep {
+  width: 1px;
+  height: 20px;
+  background: var(--chrome-border);
+  margin: 0 4px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--button-bg);
+  border: 1px solid var(--chrome-border);
+  border-radius: 5px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--button-hover);
+}
+
+button.accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.file-name {
+  color: var(--muted);
+  max-width: 40vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.warn {
+  background: var(--warn-bg);
+  color: #fff;
+  border-radius: 4px;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+#editor {
+  min-height: 0;
+  overflow: hidden;
+}
+
+#editor .cm-editor {
+  height: 100%;
+  font-size: 15px;
+}
+
+#editor .cm-scroller {
+  font-family: var(--font-mono);
+  line-height: 1.55;
+}
+
+#editor .cm-editor.cm-focused {
+  outline: none;
+}
+
+/* 置換リストのダイアログ */
+dialog {
+  width: min(860px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  border: 1px solid var(--chrome-border);
+  border-radius: 8px;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.35);
+}
+
+.rl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.rl h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.rl .hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.rl code,
+.rl-side button {
+  font-family: var(--font-code);
+  background: var(--chrome-bg);
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.rl-body {
+  display: flex;
+  gap: 10px;
+}
+
+.rl-body textarea {
+  flex: 1;
+  min-height: 260px;
+  resize: vertical;
+  font-family: var(--font-code);
+  font-size: 14px;
+  line-height: 1.5;
+  tab-size: 8;
+  padding: 8px;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--chrome-border);
+  border-radius: 5px;
+  white-space: pre;
+}
+
+.rl-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 140px;
+}
+
+.side-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.rl-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.rl-result {
+  margin: 0;
+  min-height: 1.5em;
+  max-height: 160px;
+  overflow: auto;
+  font-family: var(--font-code);
+  font-size: 13px;
+  white-space: pre-wrap;
+  background: var(--chrome-bg);
+  border-radius: 5px;
+  padding: 6px 8px;
+}
+
+.rl-result:empty {
+  display: none;
+}
+
+.rl-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .rl-body {
+    flex-direction: column;
+  }
+  .rl-side {
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .side-label {
+    width: 100%;
+  }
+}
