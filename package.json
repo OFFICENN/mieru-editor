@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "vite build && gh-pages -d dist --nojekyll -m \"Deploy to GitHub Pages\""
+    "deploy": "vite build && gh-pages -d dist --nojekyll -r https://github.com/OFFICENN/mieru-editor.git -m \"Deploy to GitHub Pages\""
   },
   "dependencies": {
     "@codemirror/commands": "^6.11.1",
