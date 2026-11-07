@@ -1,0 +1,25 @@
+{
+  "name": "みえるエディタ",
+  "short_name": "みえるエディタ",
+  "description": "改行・タブ・空白が見えて、置換リストで一括置換できるテキストエディター",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2f6f8f",
+  "lang": "ja",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "text/plain": [".txt", ".log", ".ini", ".md"],
+        "text/csv": [".csv"],
+        "text/tab-separated-values": [".tsv"]
+      }
+    }
+  ]
+}

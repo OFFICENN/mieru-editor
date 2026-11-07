@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>みえるエディタ</title>
+    <meta name="description" content="改行・タブ・空白が見えて、置換リストで一括置換できるテキストエディター" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#2f6f8f" />
+    <script type="module" crossorigin src="./assets/index-DE0EPih4.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CWgqI348.css">
+  </head>
+  <body>
+    <header class="toolbar" role="toolbar" aria-label="ツールバー">
+      <button id="btn-new" title="新規 (Alt+N)">新規</button>
+      <button id="btn-open" title="開く (Ctrl+O)">開く</button>
+      <button id="btn-save" title="上書き保存 (Ctrl+S)">保存</button>
+      <button id="btn-saveas" title="名前を付けて保存 (Ctrl+Shift+S)">名前を付けて保存</button>
+      <span class="sep"></span>
+      <button id="btn-search" title="検索・置換 (Ctrl+F / Ctrl+H)">検索・置換</button>
+      <button id="btn-replace-list" class="accent" title="置換リスト(一括置換) (Ctrl+Shift+H)">置換リスト</button>
+      <span class="sep"></span>
+      <label class="toggle" title="空白・タブ・改行の記号を表示"><input type="checkbox" id="chk-marks" checked /> 記号を表示</label>
+      <label class="toggle" title="右端で折り返して表示"><input type="checkbox" id="chk-wrap" /> 折り返し</label>
+      <span class="spacer"></span>
+      <span id="file-name" class="file-name">無題</span>
+    </header>
+
+    <main id="editor" aria-label="編集エリア"></main>
+
+    <footer class="statusbar">
+      <span id="st-pos">1 行, 1 列</span>
+      <span id="st-chars">0 文字</span>
+      <span id="st-eol-warn" class="warn" hidden></span>
+      <span class="spacer"></span>
+      <label>改行
+        <select id="st-eol" title="改行コード(変更するとファイル全体の改行を統一します)">
+          <option value="CRLF">CRLF</option>
+          <option value="LF">LF</option>
+          <option value="CR">CR</option>
+        </select>
+      </label>
+      <label>文字コード <select id="st-enc" title="保存するときの文字コード"></select></label>
+    </footer>
+
+    <dialog id="replace-list-dialog" aria-labelledby="rl-title">
+      <form method="dialog" class="rl">
+        <h2 id="rl-title">置換リスト(一括置換)</h2>
+        <p class="hint">1行に1ルール: <code>検索文字列 =&gt; 置換後文字列</code>(区切りはタブでも可)。<code>#</code> で始まる行は無視。上から順番に置換します。</p>
+        <div class="rl-body">
+          <textarea id="rl-text" spellcheck="false" aria-label="置換ルール"></textarea>
+          <div class="rl-side">
+            <span class="side-label">カーソル位置に挿入</span>
+            <button type="button" id="rl-ins-arrow">区切り =&gt;</button>
+            <button type="button" id="rl-ins-tab">タブ \t</button>
+            <button type="button" id="rl-ins-lf">改行 \n</button>
+            <button type="button" id="rl-ins-zen">全角空白</button>
+            <span class="side-label">リスト</span>
+            <button type="button" id="rl-load">ファイルから読込</button>
+            <button type="button" id="rl-save">ファイルに保存</button>
+          </div>
+        </div>
+        <div class="rl-options">
+          <label><input type="checkbox" id="rl-regex" /> 正規表現</label>
+          <label><input type="checkbox" id="rl-case" /> 英大文字と小文字を区別</label>
+          <label><input type="checkbox" id="rl-word" /> 単語単位</label>
+          <label><input type="checkbox" id="rl-selection" /> 選択範囲のみ</label>
+          <label><input type="checkbox" id="rl-escapes" /> <code>\t \n \\</code> をタブ・改行・\ として扱う</label>
+        </div>
+        <pre id="rl-result" class="rl-result" aria-live="polite"></pre>
+        <div class="rl-buttons">
+          <button type="button" id="rl-preview">件数を確認</button>
+          <button type="button" id="rl-run" class="accent">実行</button>
+          <button type="button" id="rl-close">閉じる</button>
+        </div>
+      </form>
+    </dialog>
+
+  </body>
+</html>
